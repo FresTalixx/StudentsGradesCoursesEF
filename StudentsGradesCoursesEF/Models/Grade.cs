@@ -9,12 +9,15 @@ namespace StudentsGradesCoursesEF.Models;
 public class Grade
 {
     public int Id { get; set; }
+
+    // foreign keys
     public int StudentId { get; set; }
+    public int CourseId { get; set; }
+
+    // payload
     public int NumericGrade { get; set; } = 0;
 
-    // optional navigation to Student
+    // navigations
     public Student? Student { get; set; }
-
-    // many-to-many: Grade <-> Course
-    public List<Course> Courses { get; set; } = new List<Course>();
+    public Course? Course { get; set; }
 }

@@ -21,4 +21,5 @@ using StudentsGradesCoursesEF.Models;
 
 using var context = new StudentsContext();
 
+context.Database.Migrate();
 //add-migration StudentsAndGrades
