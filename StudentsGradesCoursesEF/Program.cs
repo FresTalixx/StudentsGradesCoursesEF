@@ -23,3 +23,5 @@ using var context = new StudentsContext();
 
 context.Database.Migrate();
 //add-migration StudentsAndGrades
+
+//update-database --startup-project StudentSystem --project StudentSystem

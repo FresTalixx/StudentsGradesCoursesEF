@@ -12,8 +12,8 @@ using StudentsGradesCoursesEF.Models;
 namespace StudentsGradesCoursesEF.Migrations
 {
     [DbContext(typeof(StudentsContext))]
-    [Migration("20260405134729_fixedGrades")]
-    partial class fixedGrades
+    [Migration("20260405180006_AddedGroups")]
+    partial class AddedGroups
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,6 +77,26 @@ namespace StudentsGradesCoursesEF.Migrations
                     b.ToTable("Grades");
                 });
 
+            modelBuilder.Entity("StudentsGradesCoursesEF.Models.Group", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
+                });
+
             modelBuilder.Entity("StudentsGradesCoursesEF.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -95,11 +115,16 @@ namespace StudentsGradesCoursesEF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
 
                     b.ToTable("Students");
                 });
@@ -120,7 +145,7 @@ namespace StudentsGradesCoursesEF.Migrations
                         .IsRequired();
 
                     b.HasOne("StudentsGradesCoursesEF.Models.Student", "Student")
-                        .WithMany()
+                        .WithMany("Grades")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -130,14 +155,32 @@ namespace StudentsGradesCoursesEF.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("StudentsGradesCoursesEF.Models.Student", b =>
+                {
+                    b.HasOne("StudentsGradesCoursesEF.Models.Group", "Group")
+                        .WithMany("Students")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+                });
+
             modelBuilder.Entity("StudentsGradesCoursesEF.Models.Course", b =>
                 {
                     b.Navigation("Grades");
                 });
 
+            modelBuilder.Entity("StudentsGradesCoursesEF.Models.Group", b =>
+                {
+                    b.Navigation("Students");
+                });
+
             modelBuilder.Entity("StudentsGradesCoursesEF.Models.Student", b =>
                 {
                     b.Navigation("Courses");
+
+                    b.Navigation("Grades");
                 });
 #pragma warning restore 612, 618
         }
