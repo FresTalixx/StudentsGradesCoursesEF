@@ -1,7 +1,11 @@
 ﻿<Window x:Class="StudentSystem.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:StudentSystem"
         Title="Student System" Height="600" Width="900">
+    <Window.Resources>
+        <local:ImagePathToImageSourceConverter x:Key="ImagePathToImageSourceConverter"/>
+    </Window.Resources>
     <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -10,6 +14,7 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,8">
             <Button x:Name="BtnAddStudent" Content="Add Student" Margin="0,0,8,0" Click="BtnAddStudent_Click"/>
+            <Button x:Name="BtnManageDocument" Content="Student Document" Margin="0,0,8,0" Click="BtnManageDocument_Click"/>
             <Button x:Name="BtnAddCourse" Content="Add Course" Margin="0,0,8,0" Click="BtnAddCourse_Click"/>
             <Button x:Name="BtnAddGroup" Content="Add Group" Margin="0,0,8,0" Click="BtnAddGroup_Click"/>
             <Button x:Name="BtnAddGrade" Content="Add Grade" Click="BtnAddGrade_Click"/>
@@ -17,8 +22,18 @@
 
         <TabControl Grid.Row="1">
             <TabItem Header="Students">
-                <DataGrid x:Name="DgStudents" IsReadOnly="True" AutoGenerateColumns="False">
+                <DataGrid x:Name="DgStudents" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" RowHeight="48">
                     <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Photo" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Width="36" Height="36" CornerRadius="4" ClipToBounds="True">
+                                        <Image Source="{Binding PhotoPath, Converter={StaticResource ImagePathToImageSourceConverter}}"
+                                               Stretch="UniformToFill"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="60"/>
                         <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" />
                         <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" />

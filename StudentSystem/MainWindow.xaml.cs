@@ -54,6 +54,19 @@ namespace StudentSystem
                 LoadData();
         }
 
+        private void BtnManageDocument_Click(object sender, RoutedEventArgs e)
+        {
+            if (DgStudents.SelectedItem is not Student student)
+            {
+                MessageBox.Show("Select a student first.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var w = new StudentDocumentWindow(student.Id);
+            if (w.ShowDialog() == true)
+                LoadData();
+        }
+
         private void BtnAddCourse_Click(object sender, RoutedEventArgs e)
         {
             var w = new AddCourseWindow();

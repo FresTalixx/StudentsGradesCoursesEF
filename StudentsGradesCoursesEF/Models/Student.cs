@@ -16,4 +16,6 @@ public class Student
     public Group Group { get; set; } = null!;
     public ICollection<Grade> Grades { get; set; } = new List<Grade>();
     public ICollection<Course> Courses { get; set; } = new List<Course>();
+    public StudentDocument? Document { get; set; }
+    public string PhotoPath { get; set; } = string.Empty;
 }

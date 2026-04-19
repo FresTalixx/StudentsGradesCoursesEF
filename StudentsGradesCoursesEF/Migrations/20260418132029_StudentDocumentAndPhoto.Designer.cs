@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsGradesCoursesEF.Models;
 
@@ -11,9 +12,11 @@ using StudentsGradesCoursesEF.Models;
 namespace StudentsGradesCoursesEF.Migrations
 {
     [DbContext(typeof(StudentsContext))]
-    partial class StudentsContextModelSnapshot : ModelSnapshot
+    [Migration("20260418132029_StudentDocumentAndPhoto")]
+    partial class StudentDocumentAndPhoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,36 +138,6 @@ namespace StudentsGradesCoursesEF.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("IssuedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DocumentNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PhotoPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("StudentId");
-
-                    b.ToTable("StudentDocuments");
-                });
-
-            modelBuilder.Entity("StudentsGradesCoursesEF.Models.StudentDocument", b =>
-                {
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("DocumentNumber")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -225,17 +198,6 @@ namespace StudentsGradesCoursesEF.Migrations
                         .IsRequired();
 
                     b.Navigation("Group");
-                });
-
-            modelBuilder.Entity("StudentsGradesCoursesEF.Models.StudentDocument", b =>
-                {
-                    b.HasOne("StudentsGradesCoursesEF.Models.Student", "Student")
-                        .WithOne("Document")
-                        .HasForeignKey("StudentsGradesCoursesEF.Models.StudentDocument", "StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("StudentsGradesCoursesEF.Models.StudentDocument", b =>
